@@ -30,6 +30,8 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
+        - name: list repo
+          run: ls -al
         - name: kubectl
           run: kubectl get nodes
         - name: Deploy K8s

@@ -23,6 +23,36 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
         - name: Print "Running"
-          run: echo $SSH_USER
-        - name: user
-          run: echo $SSH_USER
+          run: |
+                 #!/bin/bash
+                 if [[ -z $SSH_PASSWORD ]]; then
+                     echo -e "\e[1;34mContainer failed to start, please pass -e SSH_PASSWORD=value\e[0m"
+                     exit 1
+                 fi
+                 if [[ -z $SSH_USER ]]; then
+                   echo -e "\e[1;34mContainer failed to start, please pass -e SSH_USER=value\e[0m"
+                   exit 1
+                 fi
+                 if [[ -z $SSH_SERVER ]]; then
+                   echo -e "\e[1;34mContainer failed to start, please pass -e SSH_SERVER=value\e[0m"
+                   exit 1
+                 fi
+
+                 CONNECT_SSH="sshpass -p $SSH_PASSWORD ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $SSH_USER@$SSH_SERVER"
+                 ARTIFACTS_PATH="/home/$SSH_USER/operator/$APP_NAME/"
+
+                 echo -e "\e[1;34m******************************************************************************************\e[0m"
+                 echo -e "\e[1;34m               Start Deploying to http://$SSH_SERVER:8000/ \e[0m"
+                 echo -e "\e[1;34m******************************************************************************************\e[0m"
+                 $CONNECT_SSH "mkdir -p $ARTIFACTS_PATH"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH && git clone https://github.com/MahmoudAbelaziz22/ecommerceBIS.git"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH/ecommerceBIS && docker compose down"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH/ecommerceBIS && docker rmi ecommerce --force"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH/ecommerceBIS && docker compose up -d"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH/ecommerceBIS && docker compose run --user=root app rm -rf vendor composer.lock"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH/ecommerceBIS && docker compose run --user=root app composer install"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH/ecommerceBIS && docker compose run --user=root app php artisan key:generate"
+                 $CONNECT_SSH "cd $ARTIFACTS_PATH/ecommerceBIS && docker compose exec -it --user=root app chmod -R 777 /var/www/storage"
+      
+                 echo -e "\e[1;34m******************************************************************************************\e[0m"
+   

@@ -23,7 +23,7 @@ jobs:
   Deploy-K8s:
       runs-on: ubuntu-latest
       container:
-          image: mahmoudabdelaziz22/mrmandoob-kubectl
+          image: mahmoudabdelaziz22/mrmandoob-kubectl:latest
           options: --privileged  # Optional: Add privileged mode if needed
           
       needs: ["Build-Docker-Image"]

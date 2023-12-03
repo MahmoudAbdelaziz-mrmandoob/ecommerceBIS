@@ -33,6 +33,6 @@ jobs:
         - name: list repo
           run: ls -al
         - name: kubectl
-          run:  get nodes
+          run:  kubectl get nodes
         - name: Deploy K8s
-          run: apply -R -f ./k8s
+          run: kubectl apply -R -f ./k8s

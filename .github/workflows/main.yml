@@ -25,19 +25,6 @@ jobs:
         - name: Print "Running"
           run: |
                  #!/bin/bash
-                 if [[ -z $SSH_PASSWORD ]]; then
-                     echo -e "\e[1;34mContainer failed to start, please pass -e SSH_PASSWORD=value\e[0m"
-                     exit 1
-                 fi
-                 if [[ -z $SSH_USER ]]; then
-                   echo -e "\e[1;34mContainer failed to start, please pass -e SSH_USER=value\e[0m"
-                   exit 1
-                 fi
-                 if [[ -z $SSH_SERVER ]]; then
-                   echo -e "\e[1;34mContainer failed to start, please pass -e SSH_SERVER=value\e[0m"
-                   exit 1
-                 fi
-
                  CONNECT_SSH="sshpass -p $SSH_PASSWORD ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $SSH_USER@$SSH_SERVER"
                  ARTIFACTS_PATH="/home/$SSH_USER/operator/$APP_NAME/"
 

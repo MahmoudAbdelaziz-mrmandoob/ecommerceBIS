@@ -25,7 +25,8 @@ jobs:
       container:
           image: mahmoudabdelaziz22/mrmandoob-kubectl
           options: --privileged  # Optional: Add privileged mode if needed
-
+          
+      needs: ["Build-Docker-Image"]
       steps:
         - name: Checkout code
           uses: actions/checkout@v2

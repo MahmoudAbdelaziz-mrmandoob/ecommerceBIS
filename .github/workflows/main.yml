@@ -1,0 +1,26 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master # Change this to your default branch
+  workflow_dispatch:
+
+jobs:
+  build:
+      runs-on: ubuntu-latest 
+      container:
+          image: mahmoudabdelaziz22/ssh-operator-base
+          options: --privileged  # Optional: Add privileged mode if needed
+          
+      env:
+       SSH_SERVER: "65.21.243.169"
+       SSH_USER: "root"
+       SSH_PASSWORD: "KvLqdmPNhfNaTPq39mVM"
+       APP_NAME: "ecommerce"
+       
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Print "Running"
+          run: echo "Running ....."

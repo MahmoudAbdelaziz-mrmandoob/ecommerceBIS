@@ -30,5 +30,7 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
+        - name: kubectl
+          run: kubectl get pods
         - name: Deploy K8s
           run: kubectl apply -R -f ./k8s

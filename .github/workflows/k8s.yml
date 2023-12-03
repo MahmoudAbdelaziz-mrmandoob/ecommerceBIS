@@ -8,7 +8,7 @@ on:
 
 jobs:
   Build-Docker-Image:
-      runs-on: ubuntu-latest
+      runs-on: node1
       
       steps:
         - name: Checkout code
@@ -21,7 +21,7 @@ jobs:
           run: docker push mahmoudabdelaziz22/ecommerce
           
   Deploy-K8s:
-      runs-on: ubuntu-latest
+      runs-on: node1
       container:
           image: mahmoudabdelaziz22/mrmandoob-kubectl:latest
     #      options: --privileged  # Optional: Add privileged mode if needed

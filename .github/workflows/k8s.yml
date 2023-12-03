@@ -24,13 +24,13 @@ jobs:
       runs-on: ubuntu-latest
       container:
           image: mahmoudabdelaziz22/mrmandoob-kubectl:latest
-          options: --privileged  # Optional: Add privileged mode if needed
+    #      options: --privileged  # Optional: Add privileged mode if needed
           
       needs: ["Build-Docker-Image"]
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
         - name: kubectl
-          run: kubectl get pods
+          run: kubectl get nodes
         - name: Deploy K8s
           run: kubectl apply -R -f ./k8s

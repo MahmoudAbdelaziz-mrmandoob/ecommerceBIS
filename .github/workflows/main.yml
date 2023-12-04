@@ -8,7 +8,7 @@ on:
 
 jobs:
    test-runner:
-     runs-on: github-runner-7c48d9559f-mr7z7
+     runs-on: self-hosted
      steps:
        - name: test
          run: echo "test from runner"

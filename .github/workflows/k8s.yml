@@ -30,8 +30,7 @@ jobs:
         - name: Create kubeconfig
           run: |
              mkdir ${HOME}/.kube
-             ls -al
-             cat ./kubeconfig | base64 --decode > ${HOME}/.kube/config
+             echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
              cat ${HOME}/.kube/config
         - name: kubectl
           run:  kubectl get nodes

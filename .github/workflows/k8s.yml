@@ -16,5 +16,6 @@ jobs:
 
   deploy-k8s:
     uses: MahmoudAbdelaziz-mrmandoob/devops/.github/workflows/03-deploy-k8s.yml@main
+    needs: ["build"]
     secrets:
       KUBE_CONFIG:: ${{ secrets.KUBE_CONFIG }}

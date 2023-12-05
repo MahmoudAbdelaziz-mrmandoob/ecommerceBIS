@@ -1,17 +1,17 @@
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
 
-on:
-  push:
-    branches:
-      - master # Change this to your default branch
-  workflow_dispatch:
+# on:
+#   push:
+#     branches:
+#       - master # Change this to your default branch
+#   workflow_dispatch:
 
-jobs:
-   test-runner:
-     runs-on: self-hosted
-     steps:
-       - name: test
-         run: echo "test from runner"
+# jobs:
+#    test-runner:
+#      runs-on: self-hosted
+#      steps:
+#        - name: test
+#          run: echo "test from runner"
 
 # jobs:
 #   build:

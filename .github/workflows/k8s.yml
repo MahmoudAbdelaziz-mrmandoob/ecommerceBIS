@@ -1,38 +1,20 @@
 name: K8s Pipeline
-
 on:
   push:
-    branches:
-      - master # Change this to your default branch
+    branches: 
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  Build-Docker-Image:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: Docker login
-          run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-        - name: Build ecommerce image
-          run: docker build --build-arg user=oday --build-arg uid=1000 -f Dockerfile -t mahmoudabdelaziz22/ecommerce .
-        - name: Push image
-          run: docker push mahmoudabdelaziz22/ecommerce
-          
-  Deploy-K8s:
-      runs-on: ubuntu-latest
-      needs: ["Build-Docker-Image"]
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-        - name: list repo
-          run: ls -al
-        - name: Create kubeconfig
-          run: |
-             mkdir ${HOME}/.kube
-             echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-             cat ${HOME}/.kube/config
-        - name: kubectl
-          run:  kubectl get nodes
-        - name: Deploy K8s
-          run: kubectl apply -R -f ./k8s
+  build:
+    uses: MahmoudAbdelaziz-mrmandoob/devops/.github/workflows/02-build.yml@main
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  deploy-k8s:
+    uses: MahmoudAbdelaziz-mrmandoob/devops/.github/workflows/03-deploy-k8s.yml@main
+    secrets:
+      KUBE_CONFIG:: ${{ secrets.KUBE_CONFIG }}

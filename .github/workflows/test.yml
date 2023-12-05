@@ -15,7 +15,7 @@ jobs:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-  deploy-k8s:
-    uses: MahmoudAbdelaziz-mrmandoob/devops/.github/workflows/03-deploy-k8s.yml@main
-    secrets:
-      KUBE_CONFIG:: ${{ secrets.KUBE_CONFIG }}
+  # deploy-k8s:
+  #   uses: MahmoudAbdelaziz-mrmandoob/devops/.github/workflows/03-deploy-k8s.yml@main
+  #   secrets:
+  #     KUBE_CONFIG:: ${{ secrets.KUBE_CONFIG }}

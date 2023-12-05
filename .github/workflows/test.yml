@@ -1,0 +1,21 @@
+name: resusable-workflow
+on:
+  push:
+    branches: none # [ master ]
+  # pull_request:
+  #   branches: none # [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: MahmoudAbdelaziz-mrmandoob/devops/.github/workflows/02-build.yml@main
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  deploy-k8s:
+    uses: MahmoudAbdelaziz-mrmandoob/devops/.github/workflows/03-deploy-k8s.yml@main
+    secrets:
+      KUBE_CONFIG:: ${{ secrets.KUBE_CONFIG }}

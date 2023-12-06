@@ -42,6 +42,7 @@ jobs:
           ./vendor/bin/phpstan analyse --memory-limit=1G --level max app || true
       - name: phpinsights
         run: |
+          composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer require nunomaduro/phpinsights:^1.0 --dev --with-all-dependencies
           php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90 --ansi --format=github-action
       - name: Run tests

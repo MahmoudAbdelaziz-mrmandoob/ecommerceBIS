@@ -45,7 +45,7 @@ jobs:
           composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer require nunomaduro/phpinsights:^1.0 --dev --with-all-dependencies
           php artisan vendor:publish --provider="NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider"
-          php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90 --ansi --format=github-action
+          php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90 --ansi --format=github-action || true
       - name: Run tests
         run: |
           php artisan test

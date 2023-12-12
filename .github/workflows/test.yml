@@ -16,18 +16,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t a-really/great-app:${{ github.sha }} .
-
+      # - name: Build an image from Dockerfile
+      #   run: |
+      #     docker build -t a-really/great-app:${{ github.sha }} .
+      - name: Build ecommerce image
+        run: docker build --build-arg user=mrmandoob --build-arg uid=1000 -f Dockerfile -t mahmoudabdelaziz22/ecommerce .
       - name: Save Docker image
         run: |
-          docker save -o ${{ github.sha }} a-really/great-app:${{ github.sha }}
+          docker save -o ecommerce mahmoudabdelaziz22/ecommerce
 
       - name: Run Clair V4
         uses: quay/clair-action@main
         with:
-          image-path: ${{ github.sha }}
+          image-path: ecommerce
           format: sarif
           output: clair_results.sarif
   

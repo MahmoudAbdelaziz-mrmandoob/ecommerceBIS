@@ -24,7 +24,7 @@ jobs:
         run: |
           docker run -d --name clair-db arminc/clair-db:latest
           docker run -p 6060:6060 --link clair-db:postgres -d --name clair arminc/clair-local-scan
-          curl -L https://github.com/arminc/clair-scanner/releases/download/v12/clair-scanner_linux_amd64 -o /usr/bin/clair-scanner
+          sudo curl -L https://github.com/arminc/clair-scanner/releases/download/v12/clair-scanner_linux_amd64 -o /usr/bin/clair-scanner
           chmod +x /usr/bin/clair-scanner
           clair-scanner -c "http://localhost:6060" --ip $(hostname -I | awk '{print $1}') a-really/great-app:${{ github.sha }}
 

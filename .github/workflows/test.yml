@@ -20,21 +20,13 @@ jobs:
         run: |
           docker build --build-arg user=mrmandoob --build-arg uid=1000 -t a-really/great-app:${{ github.sha }} .
 
-      - name: Save Docker image
+      - name: Run Clair
         run: |
-          docker save -o ${{ github.sha }} a-really/great-app:${{ github.sha }}
-
-      - name: Run Clair V4
-        uses: quay/clair-action@main
-        with:
-          image-path: ${{ github.sha }}
-          format: sarif
-          output: clair_results.sarif
-  
-      - name: Upload sarif
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: clair_results.sarif
+          docker run -d --name clair-db arminc/clair-db:latest
+          docker run -p 6060:6060 --link clair-db:postgres -d --name clair arminc/clair-local-scan
+          curl -L https://github.com/arminc/clair-scanner/releases/download/v12/clair-scanner_linux_amd64 -o /usr/bin/clair-scanner
+          chmod +x /usr/bin/clair-scanner
+          clair-scanner -c "http://localhost:6060" --ip $(hostname -I | awk '{print $1}') a-really/great-app:${{ github.sha }}
 
 # name: Tests
 
